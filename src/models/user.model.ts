@@ -1,23 +1,21 @@
 import {
-    DocumentType,
     getModelForClass,
     index,
     modelOptions,
     pre,
     prop,
-} from '@typegoose/typegoose';
-import bcrypt from 'bcryptjs';
+} from "@typegoose/typegoose";
+import bcrypt from "bcryptjs";
+import { RolesTypeEnum } from "../utils/enums/user.roles.enum";
 
 @index({ email: 1 })
-
-@pre<User>('save', async function () {
+@pre<User>("save", async function () {
     // Hash password if the password is new or was updated
-    if (!this.isModified('password')) return;
+    if (!this.isModified("password")) return;
 
     // Hash password with costFactor of 12
     this.password = await bcrypt.hash(this.password, 12);
 })
-
 @modelOptions({
     schemaOptions: {
         id: true,
@@ -50,17 +48,36 @@ import bcrypt from 'bcryptjs';
 
 // Export the User class to be used as TypeScript type
 export class User {
-    @prop()
+    @prop({
+        type: String,
+        trim: true,
+        minlength: 2,
+        maxLength: 32,
+        required: true,
+    })
     name: string;
 
-    @prop({ unique: true, required: true })
+    @prop({
+        type: String,
+        unique: true,
+        trim: true,
+        lowercase: true,
+        required: true,
+    })
     email: string;
 
-    @prop({ required: true, minlength: 8, maxLength: 32, select: false })
+    @prop({
+        type: String,
+        trim: true,
+        minlength: 8,
+        maxLength: 32,
+        select: false,
+        required: true,
+    })
     password: string;
 
-    @prop({ default: 'user' })
-    role: string;
+    @prop({ type: String, enum: RolesTypeEnum, default: RolesTypeEnum.user })
+    role: RolesTypeEnum;
 
     // Instance method to check if passwords match
     async comparePasswords(hashedPassword: string, candidatePassword: string) {
@@ -70,5 +87,5 @@ export class User {
 
 // Create the user model from the User class
 const userModel = getModelForClass(User);
-export default userModel;
 
+export default userModel;
