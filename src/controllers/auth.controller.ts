@@ -62,6 +62,7 @@ export const registerHandler = async (
         next(err);
 
     }
+    
 };
 
 export const loginHandler = async (
