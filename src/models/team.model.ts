@@ -2,6 +2,7 @@ import {
     getModelForClass,
     index,
     modelOptions,
+    mongoose,
     prop,
 } from "@typegoose/typegoose";
 import { mongooseSchemaConfig } from "../utils/database/schema.config";
@@ -46,7 +47,6 @@ export class Team {
 
     @prop({
         type: Number,
-        trim: true,
     })
     founded: number;
 
@@ -64,31 +64,44 @@ export class Team {
 
     @prop({
         type: Number,
-        trim: true,
         default: 0,
     })
     wins: number;
 
     @prop({
         type: Number,
-        trim: true,
         default: 0,
     })
     losses: number;
 
     @prop({
         type: Number,
-        trim: true,
         default: 0,
     })
     goals: number;
 
     @prop({
         type: Boolean,
-        trim: true,
         default: false,
     })
     isDeleted: boolean;
+
+    @prop({
+        type: Date,
+    })
+    deletedAt: Date;
+
+    @prop({
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    })
+    createdBy: string;
+
+    @prop({
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    })
+    deletedBy: string;
 
 }
 

@@ -25,3 +25,4 @@ const connectDB = async () => {
 
 export default connectDB;
 
+// mongodb://dev_sandie:futminna@localhost:6000/premier_league?authSource=admin

@@ -34,4 +34,40 @@ export const createTeamSchema = object({
 
 });
 
+export const updateTeamSchema = object({
+    
+    body: object({
+
+        name: string().min(3).max(255).optional(),
+
+        nickName: string()
+            .min(3)
+            .max(255).optional(),
+
+        coach: string().min(3).max(50).optional(),
+
+        website: string().min(3).max(255).optional(),
+
+        stadiumName: string()
+            .min(3)
+            .max(255).optional(),
+
+        stadiumCapacity: string()
+            .min(3)
+            .max(255).optional(),
+
+        founded: number().optional(),
+
+        wins: number().optional(),
+
+        losses: number().optional(),
+
+        goals: number().optional(),
+
+    }),
+
+});
+
 export type CreateTeamInput = TypeOf<typeof createTeamSchema>['body'];
+
+export type UpdateTeamInput = TypeOf<typeof updateTeamSchema>['body'];

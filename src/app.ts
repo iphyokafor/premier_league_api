@@ -7,6 +7,7 @@ import cookieParser from 'cookie-parser';
 import connectDB from './utils/connectDB';
 import userRouter from './routes/user.route';
 import authRouter from './routes/auth.route';
+import teamRouter from './routes/team.route';
 
 const app = express();
 
@@ -32,6 +33,7 @@ app.use(
 // 5. Routes
 app.use('/api/users', userRouter);
 app.use('/api/auth', authRouter);
+app.use('/api/teams', teamRouter)
 
 // Testing
 app.get('/premier_league_api', (req: Request, res: Response, next: NextFunction) => {

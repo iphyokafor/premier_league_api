@@ -40,11 +40,11 @@ export const signToken = async (user: DocumentType<User>) => {
         {
             expiresIn: `${config.get<number>('accessTokenExpiresIn')}m`,
         }
-        
+
     );
 
     // Create a Session
-    redisClient.set(user.id, JSON.stringify(user), {
+    redisClient.set(user.id, JSON.stringify({ user, access_token }), {
         EX: 60 * 60,
     });
 
