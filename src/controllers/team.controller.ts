@@ -14,7 +14,7 @@ export const createTeamHandler = async (
     next: NextFunction
 ) => {
     try {
-        const user = res.locals.user;
+        const user = req.currentUser._id;
         
         const {
             name,
@@ -116,7 +116,7 @@ export const deleteTeamHandler = async (
     next: NextFunction) => {
 
     const { id } = req.params;
-    const userId = res.locals.user
+    const userId = req.currentUser._id
         console.log("userId", userId);
         
     try {
@@ -129,6 +129,7 @@ export const deleteTeamHandler = async (
                 .json({
                     status: "success",
                     message: `Team has been deleted successfully.`,
+                    data: deleteTeam
                     // message: `Team ${deleteTeam.name} has been deleted successfully.`,
                 });
         }

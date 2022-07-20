@@ -27,15 +27,19 @@ export const findTeamByIdAndUpdate = async (
 };
 
 export const findTeamByIdAndDelete = async (id: string, createdBy: string) => {
-const team = await teamModel.findById(id);
+    console.log({ id, createdBy });
+    
+// const team = await teamModel.findById(id);
 
-// const {createdBy} = team;
+// // const {createdBy} = team;
 
-console.log('team', team)
+// console.log('team', team)
 
-const deleteTeam = await teamModel.updateOne({ id, isDeleted: false, deletedAt: null }, {
+const deleteTeam = await teamModel.findByIdAndUpdate({ _id: id, isDeleted: false, deletedAt: null }, {
     $set: { isDeleted: true, deletedAt: new Date(), deletedBy: createdBy },
 });
+console.log("deleteTeam", deleteTeam);
+
 return deleteTeam;
 
 

@@ -97,10 +97,7 @@ export class Team {
     })
     createdBy: string;
 
-    @prop({
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
-    })
+    @prop({ type: String })
     deletedBy: string;
 
 }
