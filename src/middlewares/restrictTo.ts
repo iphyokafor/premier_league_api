@@ -3,13 +3,11 @@ import AppError from '../utils/appError';
 import { RolesTypeEnum } from '../utils/enums/user.roles.enum';
 
 export const restrictTo =
-    (...allowedRoles: string[]) =>
+    (...allowedRoles: RolesTypeEnum[]) =>
         (req: Request, res: Response, next: NextFunction) => {
-            console.log("allowedRoles", allowedRoles);
-            
-            const user = res.locals.user;
-            console.log("user", user.role);
-            
+
+            const user = req.currentUser;
+
             if (!allowedRoles.includes(user.role)) {
                 return next(
                     new AppError('You are not allowed to perform this action', 403)

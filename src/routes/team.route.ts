@@ -12,18 +12,16 @@ import { RolesTypeEnum } from '../utils/enums/user.roles.enum';
 
 const router = express.Router();
 
-// router.use(deserializeUser, requireUser);
-
 // create team route
-router.post('/create', [validateUserToken, validate(createTeamSchema)], createTeamHandler);
+router.post('/create', [validateUserToken, restrictTo(RolesTypeEnum.admin), validate(createTeamSchema)], createTeamHandler);
 
 // get Teams route
 router.get('/', validateUserToken, getAllTeamsHandler);
 
 // update Teams route
-router.put('/update-team/:id', [validateUserToken, validate(updateTeamSchema)], updateTeamHandler);
+router.put('/update-team/:id', [validateUserToken, restrictTo(RolesTypeEnum.admin), validate(updateTeamSchema)], updateTeamHandler);
 
 // delete Teams route
-router.patch('/delete-team/:id', validateUserToken, deleteTeamHandler);
+router.patch('/delete-team/:id', [validateUserToken, restrictTo(RolesTypeEnum.admin),], deleteTeamHandler);
 
 export default router;
