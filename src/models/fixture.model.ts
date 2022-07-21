@@ -25,7 +25,7 @@ export class Fixture {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Team',
     })
-    opponentTeam: string;
+    awayTeam: string;
 
     @prop({
         type: Number,
@@ -37,7 +37,7 @@ export class Fixture {
         type: Number,
         default: 0,
     })
-    opponentScore: number;
+    awayScore: number;
 
     @prop({
         type: String,
@@ -53,14 +53,35 @@ export class Fixture {
         type: Boolean,
         default: false,
     })
-    played: string;
+    played: boolean;
 
     @prop({
-        type: mongoose.Schema.Types.Mixed,
-        default: () => `http://localhost:${config.get('port')
-            }/api/fixtures/${shortid.generate()}`
+        type: String,
     })
     link: string;
+
+    @prop({ type: String })
+    shortCode: string
+
+    @prop({
+        type: Boolean,
+        default: false,
+    })
+    isDeleted: boolean;
+
+    @prop({
+        type: Date,
+    })
+    deletedAt: Date;
+
+    @prop({
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    })
+    createdBy: string;
+
+    @prop({ type: String })
+    deletedBy: string;
 
 }
 

@@ -27,6 +27,8 @@ export const verifyJwt = <T>(token: string): T | null => {
         return jwt.verify(token, publicKey) as T;
 
     } catch (error) {
+        console.log("errorr verify token", error);
+        
         return null;
     }
 
