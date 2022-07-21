@@ -6,7 +6,13 @@
   "author": "Sandra Okafor",
   "license": "MIT",
   "scripts": {
-    "start": "ts-node-dev --respawn --transpile-only src/app.ts"
+    "start": "node build/app.js",
+    "clean": "rimraf build/*",
+    "postinstall": "tsc",
+    "build": "npm run clean && npm run postinstall",
+    "watch-node": "nodemon build/app.js",
+    "watch-ts": "tsc -w",
+    "start:dev": "ts-node-dev --respawn --transpile-only src/app.ts"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
@@ -20,10 +26,24 @@
     "@types/node": "^18.0.6",
     "@types/shortid": "^0.0.29",
     "morgan": "^1.10.0",
-    "typescript": "^4.7.4"
+    "typescript": "^4.7.4",
+    "@types/jest": "^24.0.18",
+    "jest": "^24.9.0",
+    "supertest": "^4.0.2",
+    "ts-jest": "^24.0.2"
+
+
   },
   "dependencies": {
+    "@babel/cli": "^7.15.7",
+    "@babel/core": "^7.15.5",
+    "@babel/node": "^7.15.4",
+    "@babel/plugin-transform-runtime": "^7.15.0",
+    "@babel/preset-env": "^7.15.6",
+    "@babel/register": "^7.15.3",
+    "@babel/runtime": "^7.15.4",
     "@typegoose/typegoose": "^9.10.1",
+    "@types/supertest": "^2.0.12",
     "bcryptjs": "^2.4.3",
     "config": "^3.3.7",
     "cookie-parser": "^1.4.6",
