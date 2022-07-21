@@ -13,27 +13,15 @@ export const createTeamHandler = async (
     res: Response,
     next: NextFunction
 ) => {
+
     try {
+
         const user = req.currentUser._id;
-        
-        const {
-            name,
-            nickName,
-            website,
-            coach,
-            founded,
-            stadiumName,
-            stadiumCapacity,
-        } = req.body;
+
+        const payload = req.body;
 
         const team = await createTeam({
-            name,
-            nickName,
-            website,
-            coach,
-            founded,
-            stadiumName,
-            stadiumCapacity,
+            ...payload,
             createdBy: user
         });
 
@@ -43,6 +31,7 @@ export const createTeamHandler = async (
                 team,
             },
         });
+
     } catch (err: any) {
         if (err.code === 11000) {
             return res.status(409).json({
@@ -53,6 +42,7 @@ export const createTeamHandler = async (
 
         next(err);
     }
+
 };
 
 export const getAllTeamsHandler = async (
@@ -89,21 +79,16 @@ export const updateTeamHandler = async (
 
         const updateTeam = await findTeamByIdAndUpdate(id, payload);
 
-        if (!updateTeam) {
-            return res
-                .status(404)
-                .json({
-                    status: "fail",
-                    message: "Team not found.",
-                });
-        }
+        if (updateTeam) {
 
-        return res
+            return res
                 .status(200)
                 .json({
                     status: "success",
                     message: `Team ${updateTeam.name} has been updated successfully.`,
                 });
+
+        }
 
     } catch (err: any) {
         next(err.message);
@@ -116,25 +101,27 @@ export const deleteTeamHandler = async (
     next: NextFunction) => {
 
     const { id } = req.params;
+
     const userId = req.currentUser._id
-        console.log("userId", userId);
-        
+
     try {
 
         const deleteTeam = await findTeamByIdAndDelete(id, userId);
 
         if (deleteTeam) {
+
             return res
                 .status(200)
                 .json({
                     status: "success",
-                    message: `Team has been deleted successfully.`,
-                    data: deleteTeam
-                    // message: `Team ${deleteTeam.name} has been deleted successfully.`,
+                    message: `Team ${deleteTeam.name} has been deleted successfully.`,
                 });
+
         }
+
 
     } catch (err) {
         next(err);
     }
+
 }

@@ -21,7 +21,7 @@ router.post('/create', [validateUserToken, validate(createTeamSchema)], createTe
 router.get('/', validateUserToken, getAllTeamsHandler);
 
 // update Teams route
-router.put('/update-team/:id', validate(updateTeamSchema), updateTeamHandler);
+router.put('/update-team/:id', [validateUserToken, validate(updateTeamSchema)], updateTeamHandler);
 
 // delete Teams route
 router.patch('/delete-team/:id', validateUserToken, deleteTeamHandler);
