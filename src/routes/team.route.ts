@@ -22,6 +22,6 @@ router.get('/', validateUserToken, getAllTeamsHandler);
 router.put('/update-team/:id', [validateUserToken, restrictTo(RolesTypeEnum.admin), validate(updateTeamSchema)], updateTeamHandler);
 
 // delete Teams route
-router.patch('/delete-team/:id', [validateUserToken, restrictTo(RolesTypeEnum.admin),], deleteTeamHandler);
+router.patch('/delete-team/:id', [validateUserToken, restrictTo(RolesTypeEnum.admin)], deleteTeamHandler);
 
 export default router;

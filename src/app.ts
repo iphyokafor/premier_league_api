@@ -10,7 +10,7 @@ import authRouter from './routes/auth.route';
 import teamRouter from './routes/team.route';
 import fixtureRouter from './routes/fixture.route';
 
-const app = express();
+export const app = express();
 
 // Middleware
 

@@ -63,7 +63,8 @@ export const validateUserToken = async (
             return next(new AppError(`User with that token no longer exist`, 401));
         }
 
-        req.currentUser = user;
+        res.locals.user = user;
+        // req.currentUser = user;
 
         return next();
     } catch (error) {

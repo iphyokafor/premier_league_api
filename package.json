@@ -6,7 +6,14 @@
   "author": "Sandra Okafor",
   "license": "MIT",
   "scripts": {
-    "start": "ts-node-dev --respawn --transpile-only src/app.ts"
+    "start": "node build/app.js",
+    "clean": "rimraf build/*",
+    "postinstall": "tsc",
+    "build": "npm run clean && npm run postinstall",
+    "watch-node": "nodemon build/app.js",
+    "watch-ts": "tsc -w",
+    "dev": "ts-node-dev --respawn --transpile-only src/app.ts",
+    "test": "jest --watch"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
@@ -20,9 +27,22 @@
     "@types/node": "^18.0.6",
     "@types/shortid": "^0.0.29",
     "morgan": "^1.10.0",
-    "typescript": "^4.7.4"
+    "typescript": "^4.7.4",
+    "@types/jest": "^24.0.18",
+    "jest": "^24.9.0",
+    "nodemon": "^1.19.1",
+    "supertest": "^4.0.2",
+    "ts-jest": "^24.0.2",
+    "tslint": "^5.19.0"
   },
   "dependencies": {
+    "@babel/cli": "^7.15.7",
+    "@babel/core": "^7.15.5",
+    "@babel/node": "^7.15.4",
+    "@babel/plugin-transform-runtime": "^7.15.0",
+    "@babel/preset-env": "^7.15.6",
+    "@babel/register": "^7.15.3",
+    "@babel/runtime": "^7.15.4",
     "@typegoose/typegoose": "^9.10.1",
     "bcryptjs": "^2.4.3",
     "config": "^3.3.7",
@@ -36,6 +56,8 @@
     "redis": "^4.2.0",
     "shortid": "^2.2.16",
     "ts-node-dev": "^2.0.0",
-    "zod": "^3.17.3"
+    "zod": "^3.17.3",
+    "@types/supertest": "^2.0.8",
+    "tslint-config-airbnb": "^5.11.2"
   }
 }

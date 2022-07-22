@@ -115,7 +115,8 @@ export const createFixtureHandler = async (
     next: NextFunction
 ) => {
     try {
-        const user = req.currentUser._id;
+        const user = res.locals.user._id;
+        // const user = req.currentUser._id;
 
         const payload = req.body;
 
@@ -182,7 +183,8 @@ export const deleteFixtureHandler = async (
 
     const { id } = req.params;
 
-    const userId = req.currentUser._id
+    const userId = res.locals.user._id;
+    // const userId = req.currentUser._id
 
     try {
 

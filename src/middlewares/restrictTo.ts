@@ -6,7 +6,8 @@ export const restrictTo =
     (...allowedRoles: RolesTypeEnum[]) =>
         (req: Request, res: Response, next: NextFunction) => {
 
-            const user = req.currentUser;
+            const user = res.locals.user;
+            // const user = req.currentUser;
 
             if (!allowedRoles.includes(user.role)) {
                 return next(
