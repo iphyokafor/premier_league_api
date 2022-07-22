@@ -12,7 +12,8 @@
     "build": "npm run clean && npm run postinstall",
     "watch-node": "nodemon build/app.js",
     "watch-ts": "tsc -w",
-    "start:dev": "ts-node-dev --respawn --transpile-only src/app.ts"
+    "dev": "ts-node-dev --respawn --transpile-only src/app.ts",
+    "test": "jest --watch"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
@@ -29,10 +30,10 @@
     "typescript": "^4.7.4",
     "@types/jest": "^24.0.18",
     "jest": "^24.9.0",
+    "nodemon": "^1.19.1",
     "supertest": "^4.0.2",
-    "ts-jest": "^24.0.2"
-
-
+    "ts-jest": "^24.0.2",
+    "tslint": "^5.19.0"
   },
   "dependencies": {
     "@babel/cli": "^7.15.7",
@@ -56,6 +57,7 @@
     "redis": "^4.2.0",
     "shortid": "^2.2.16",
     "ts-node-dev": "^2.0.0",
-    "zod": "^3.17.3"
+    "zod": "^3.17.3",
+    "tslint-config-airbnb": "^5.11.2"
   }
 }

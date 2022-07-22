@@ -9,7 +9,8 @@ export const getMeHandler = (
 
     try {
 
-        const user = req.currentUser;
+        const user = res.locals.user;
+        // const user = req.currentUser;
         
         res.status(200).json({
             status: 'success',
