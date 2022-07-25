@@ -20,7 +20,6 @@ export const createTeam = async (input: Partial<Team>) => {
 export const findAllTeams = async () => {
 
     try {
-
         return await teamModel.find({ isDeleted: false, deletedAt: null });
 
     } catch (error) {
@@ -36,7 +35,7 @@ export const findTeamById = async (id: string) => {
         const team = await teamModel.findById(id).lean();
 
         if (!team) {
-            throw new AppError('Team not found', 404);
+            throw new AppError("Team not found", 404);
         }
 
         return team;
@@ -51,7 +50,7 @@ export const checkIfTeamIsDeleted = async (id: string) => {
 
     try {
 
-        const teamExists = await teamModel.findOne({ _id: id, isDeleted: true })
+        const teamExists = await teamModel.findOne({ _id: id, isDeleted: true });
 
         return teamExists;
 
@@ -59,7 +58,7 @@ export const checkIfTeamIsDeleted = async (id: string) => {
         throw error;
     }
 
-}
+};
 
 export const findTeamByIdAndUpdate = async (
     id: string,
@@ -84,12 +83,15 @@ export const findTeamByIdAndDelete = async (id: string, createdBy: string) => {
 
     try {
 
-        const deleteTeam = await teamModel.findByIdAndUpdate({ _id: id, isDeleted: false, deletedAt: null }, {
-            $set: { isDeleted: true, deletedAt: new Date(), deletedBy: createdBy },
-        });
+        const deleteTeam = await teamModel.findByIdAndUpdate(
+            { _id: id, isDeleted: false, deletedAt: null },
+            {
+                $set: { isDeleted: true, deletedAt: new Date(), deletedBy: createdBy },
+            }
+        );
 
         if (!deleteTeam) {
-            throw new AppError('Unable to delete team, team does not exist', 404);
+            throw new AppError("Unable to delete team, team does not exist", 404);
         }
 
         return deleteTeam;
