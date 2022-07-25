@@ -114,7 +114,9 @@ export const createFixtureHandler = async (
     res: Response,
     next: NextFunction
 ) => {
+
     try {
+
         const user = res.locals.user._id;
         // const user = req.currentUser._id;
 
@@ -123,9 +125,11 @@ export const createFixtureHandler = async (
         const { homeTeam, awayTeam } = payload;
 
         const home = await findTeamById(homeTeam);
+
         if (!home) return next(new AppError("Home Team not found", 400));
 
         const away = await findTeamById(awayTeam);
+
         if (!away) return next(new AppError("Away Team not found", 400));
 
         const fixture = await createFixture({
@@ -143,6 +147,7 @@ export const createFixtureHandler = async (
     } catch (err: any) {
         next(err);
     }
+
 };
 
 export const updateFixtureHandler = async (
@@ -155,11 +160,10 @@ export const updateFixtureHandler = async (
 
     const payload = req.body;
 
-
     try {
-        
+
         const updateFixture = await findFixtureByIdAndUpdate(id, payload);
-        
+
         if (updateFixture) {
 
             return res
@@ -174,6 +178,7 @@ export const updateFixtureHandler = async (
     } catch (err: any) {
         next(err.message);
     }
+
 };
 
 export const deleteFixtureHandler = async (

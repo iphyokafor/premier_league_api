@@ -39,20 +39,6 @@ export const updateFixtureSchema = object({
 
     body: object({
 
-        // homeTeam: string().refine((value) => {
-        //     if (Types.ObjectId.isValid(value)) {
-        //         return value;
-        //     }
-        //     return new appError('please provide a valid object Id', 400)
-        // }).optional(),
-
-        // awayTeam: string().refine((value) => {
-        //     if (Types.ObjectId.isValid(value)) {
-        //         return value;
-        //     }
-        //     return new appError('please provide a valid object Id', 400)
-        // }).optional(),
-
         homeScore: number().optional(),
 
         awayScore: number().optional(),

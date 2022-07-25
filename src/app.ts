@@ -9,21 +9,22 @@ import userRouter from './routes/user.route';
 import authRouter from './routes/auth.route';
 import teamRouter from './routes/team.route';
 import fixtureRouter from './routes/fixture.route';
+import searchRouter from './routes/search.route';
 
 export const app = express();
 
 // Middleware
 
-// 1. Body Parser
+//  Body Parser
 app.use(express.json({ limit: '10kb' }));
 
-// 2. Cookie Parser
+//  Cookie Parser
 app.use(cookieParser());
 
-// 3. Logger
+//  Logger
 if (process.env.NODE_ENV === 'development') app.use(morgan('dev'));
 
-// 4. Cors
+//  Cors
 app.use(
   cors({
     origin: config.get<string>('origin'),
@@ -31,11 +32,12 @@ app.use(
   })
 );
 
-// 5. Routes
+//  Routes
 app.use('/api/users', userRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/teams', teamRouter);
 app.use('/api/fixtures', fixtureRouter);
+app.use('/api/search', searchRouter);
 
 // Testing
 app.get('/premier_league_api', (req: Request, res: Response, next: NextFunction) => {
