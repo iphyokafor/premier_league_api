@@ -10,12 +10,12 @@
     "strictPropertyInitialization": false,
     "skipLibCheck": true,
     "typeRoots": ["./node_modules/@types", "./src/@types"],
+    "rootDir": "src/ts",
     "outDir": "build"
   },
-  "include": [
-    "src/*/"
-   ],
+  "include": [ "src/ts/**/*.ts" ],
   "exclude": [
     "node_modules"
-  ]
+  ],
+ 
 }
