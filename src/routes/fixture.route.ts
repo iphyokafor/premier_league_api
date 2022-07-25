@@ -23,10 +23,10 @@ router.get('/get/pending', validateUserToken, getPendingFixturesHandler);
 // get all fixture route
 router.get('/', validateUserToken, getAllFixturesHandler);
 
-// // update Fixture route
+// update Fixture route
 router.put('/update-fixture/:id', [validateUserToken, restrictTo(RolesTypeEnum.admin), validate(updateFixtureSchema)], updateFixtureHandler);
 
-// // delete Fixtures route
+// delete Fixtures route
 router.patch('/delete-fixture/:id', [validateUserToken, restrictTo(RolesTypeEnum.admin),], deleteFixtureHandler);
 
 export default router;

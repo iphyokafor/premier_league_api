@@ -13,7 +13,7 @@ import searchRouter from './routes/search.route';
 
 export const app = express();
 
-// Middleware
+// Middlewares
 
 //  Body Parser
 app.use(express.json({ limit: '10kb' }));
@@ -41,21 +41,27 @@ app.use('/api/search', searchRouter);
 
 // Testing
 app.get('/premier_league_api', (req: Request, res: Response, next: NextFunction) => {
+
   res.status(200).json({
     status: 'success',
     message: 'Welcome to gomoney premier league⚽️⛹️‍♂️👈👈',
   });
+
 });
 
 // UnKnown Routes
 app.all('*', (req: Request, res: Response, next: NextFunction) => {
+
   const err = new Error(`Route ${req.originalUrl} not found`) as any;
   err.statusCode = 404;
+
   next(err);
+
 });
 
 // Global Error Handler
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+
   err.status = err.status || 'error';
   err.statusCode = err.statusCode || 500;
 
@@ -63,11 +69,13 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
     status: err.status,
     message: err.message,
   });
+
 });
 
 const port = config.get<number>('port');
 
 app.listen(port, () => {
+
   console.log(`Server started on port: ${port}`);
 
   // 👇 call the connectDB function here

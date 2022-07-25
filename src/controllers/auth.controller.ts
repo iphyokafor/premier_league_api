@@ -41,7 +41,6 @@ export const registerHandler = async (
 
         const { access_token } = await signToken(user);
 
-
         res.status(201).json({
             status: 'success',
             data: {

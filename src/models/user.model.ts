@@ -61,7 +61,7 @@ export class User {
     })
     role: RolesTypeEnum;
 
-    // Instance method to check if passwords match
+    // Instantiate method to check if passwords match
     async comparePasswords(hashedPassword: string, candidatePassword: string) {
         return await bcrypt.compare(candidatePassword, hashedPassword);
     }

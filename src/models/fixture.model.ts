@@ -5,14 +5,10 @@ import {
     prop,
 } from "@typegoose/typegoose";
 
-import config from "config";
-import shortid from 'shortid';
-
 import { mongooseSchemaConfig } from "../utils/database/schema.config";
 
 @modelOptions(mongooseSchemaConfig)
 
-// Export the Fixture class to be used as TypeScript type
 export class Fixture {
 
     @prop({

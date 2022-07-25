@@ -18,7 +18,6 @@ export const mongooseSchemaConfig = {
                 delete ret.password;
                 delete ret.salt;
                 delete ret.updatedAt;
-                delete ret.isDeleted;
                 return ret;
             },
         },
@@ -30,7 +29,6 @@ export const mongooseSchemaConfig = {
                 delete ret.password;
                 delete ret.salt;
                 delete ret.updatedAt;
-                delete ret.isDeleted;
                 return ret;
             },
         },

@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 
 import { CreateTeamInput } from "../schemas/team.schema";
 import {
+    checkIfTeamIsDeleted,
     createTeam,
     findAllTeams,
     findTeamByIdAndDelete,
@@ -17,7 +18,6 @@ export const createTeamHandler = async (
     try {
 
         const user = res.locals.user._id;
-        // const user = req.currentUser._id;
 
         const payload = req.body;
 
@@ -78,9 +78,31 @@ export const updateTeamHandler = async (
 
     try {
 
-        const updateTeam = await findTeamByIdAndUpdate(id, payload);
+        const checkIsDeleted = await checkIfTeamIsDeleted(id);
 
-        if (updateTeam) {
+        if (checkIsDeleted) {
+
+            return res
+                .status(404)
+                .json({
+                    status: "fail",
+                    message: `Cannot update team as it doesn not exist or has been deleted`,
+                });
+
+        } else {
+
+            const updateTeam = await findTeamByIdAndUpdate(id, payload);
+
+            if (!updateTeam) {
+
+                return res
+                    .status(400)
+                    .json({
+                        status: "fail",
+                        message: `Sorry, unable to update team at this time`,
+                    });
+
+            }
 
             return res
                 .status(200)
@@ -104,7 +126,6 @@ export const deleteTeamHandler = async (
     const { id } = req.params;
 
     const userId = res.locals.user._id
-    // const userId = req.currentUser._id
 
     try {
 
