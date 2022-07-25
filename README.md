@@ -27,6 +27,8 @@ To obtain the postman documentation [url](https://documenter.getpostman.com/view
 
 To obtain a copy of this app download or clone the repository at this [url](https://github.com/iphyokafor/premier_league_api)
 
+To obtain the link to deployment on heroku [url](https://sandie-league.herokuapp.com/api/premier_league_api)
+
 # Prerequisites
 
 You must have
