@@ -18,7 +18,7 @@ let fixtureLink: string;
 let session: object;
 
 beforeAll(async () => {
-  await userModel.deleteMany({});
+  // await userModel.deleteMany({});
 
   const user = await request(app)
     .post('/api/auth/register')
@@ -29,7 +29,7 @@ beforeAll(async () => {
       role: 'admin',
     });
   token = user.body.token;
-  await seed();
+  // await seed();
 
   teamA = await teamModel.findOne({ name: 'Liverpool' });
   teamB = await teamModel.findOne({ name: 'Manchester City' });

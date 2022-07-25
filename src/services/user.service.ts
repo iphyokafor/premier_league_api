@@ -7,19 +7,45 @@ import { DocumentType } from '@typegoose/typegoose';
 
 // CreateUser service
 export const createUser = async (input: Partial<User>) => {
-    const user = await userModel.create(input);
-    return user;
+
+    try {
+
+        const user = await userModel.create(input);
+
+        return user;
+
+    } catch (error) {
+        throw error;
+    }
+
 };
 
 // Find User by Id
 export const findUserById = async (id: string) => {
-    const user = await userModel.findById(id).lean();
-    return user;
+
+    try {
+
+        const user = await userModel.findById(id).lean();
+
+        return user;
+
+    } catch (error) {
+        throw error;
+    }
+
 };
 
 // Find All users
 export const findAllUsers = async () => {
-    return await userModel.find();
+
+    try {
+
+        return await userModel.find();
+
+    } catch (error) {
+        throw error;
+    }
+
 };
 
 // Find one user by any fields
@@ -27,28 +53,44 @@ export const findUser = async (
     query: FilterQuery<User>,
     options: QueryOptions = {}
 ) => {
-    return await userModel.findOne(query, {}, options).select('+password');
+
+    try {
+
+        return await userModel.findOne(query, {}, options).select('+password');
+
+    } catch (error) {
+        throw error;
+    }
+
 };
 
 // Sign Token
 export const signToken = async (user: DocumentType<User>) => {
-    // Sign the access token
-    const access_token = signJwt(
 
-        { user: user.id, role: user.role },
+    try {
 
-        {
-            expiresIn: `${config.get<number>('accessTokenExpiresIn')}hr`,
-        }
+        // Sign the access token
+        const access_token = signJwt(
 
-    );
+            { user: user.id, role: user.role },
 
-    // Create a Session
-    redisClient.set(user.id, JSON.stringify({ user, access_token }), {
-        EX: 60 * 60,
-    });
+            {
+                expiresIn: `${config.get<number>('accessTokenExpiresIn')}m`,
+            }
 
-    // Return access token
-    return { access_token };
+        );
+
+        // Create a Session
+        redisClient.set(user.id, JSON.stringify({ user, access_token }), {
+            EX: 60 * 60,
+        });
+
+        // Return access token
+        return { access_token };
+
+    } catch (error) {
+        throw error;
+    }
+    
 };
 

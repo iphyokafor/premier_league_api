@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
+import fixtureModel from "../models/fixture.model";
 import { CreateFixtureInput } from "../schemas/fixture.schema";
-import { completedFixtures, createFixture, findAllFixtures, findFixtureByIdAndDelete, findFixtureByIdAndUpdate, findFixtureByLink, pendingFixtures } from "../services/fixture.service";
+import { checkIfFixtureIsDeleted, completedFixtures, createFixture, findAllFixtures, findFixtureByIdAndDelete, findFixtureByIdAndUpdate, findFixtureByLink, pendingFixtures } from "../services/fixture.service";
 import { findTeamById } from "../services/team.service";
 import AppError from "../utils/appError";
 
@@ -118,7 +119,6 @@ export const createFixtureHandler = async (
     try {
 
         const user = res.locals.user._id;
-        // const user = req.currentUser._id;
 
         const payload = req.body;
 
@@ -161,11 +161,28 @@ export const updateFixtureHandler = async (
     const payload = req.body;
 
     try {
+        const checkIsDeleted = await checkIfFixtureIsDeleted(id);
 
-        const updateFixture = await findFixtureByIdAndUpdate(id, payload);
-
-        if (updateFixture) {
-
+        if (checkIsDeleted) {
+            return res
+            .status(404)
+            .json({
+                status: "fail",
+                message: `Cannot update fixture as it doesn not exist or has been deleted`,
+            });
+        } else { 
+            
+            const updateFixture = await findFixtureByIdAndUpdate(id, payload);
+    
+            if (!updateFixture) {
+                return res
+                    .status(400)
+                    .json({
+                        status: "fail",
+                        message: `Sorry, unable to update fixture at this time`,
+                    });
+            }
+    
             return res
                 .status(200)
                 .json({
@@ -174,8 +191,10 @@ export const updateFixtureHandler = async (
                 });
 
         }
+        
 
     } catch (err: any) {
+        console.log('error---', err)
         next(err.message);
     }
 
@@ -189,7 +208,6 @@ export const deleteFixtureHandler = async (
     const { id } = req.params;
 
     const userId = res.locals.user._id;
-    // const userId = req.currentUser._id
 
     try {
 

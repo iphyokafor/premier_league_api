@@ -11,12 +11,14 @@ export const searchTeam = async (props: pageDtoConfig) => {
         page = !page || isNaN(page) ? 1 : Number(page);
 
         const searchQueries = {
+
             $or: [
                 { name: { $regex: search, $options: "ig" } },
                 { nickName: { $regex: search, $options: "ig" } },
                 { coach: { $regex: search, $options: "ig" } },
                 { stadiumName: { $regex: search, $options: "ig" } },
             ]
+            
         }
 
         page = page < 1 ? 1 : Number(page);

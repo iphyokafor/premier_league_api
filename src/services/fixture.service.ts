@@ -12,77 +12,129 @@ type updateFixtureConfig = {
 
 export const createFixture = async (input: Partial<Fixture>) => {
 
-    const code = shortid.generate();
+    try {
 
-    const uniqueFixtureUrl = `${config.get('base_url')}/fixtures/${code}`;
+        const code = shortid.generate();
 
-    const fixture = await fixtureModel.create({
-        ...input,
-        shortCode: code,
-        link: uniqueFixtureUrl
-    });
+        const uniqueFixtureUrl = `${config.get('base_url')}/fixtures/${code}`;
 
-    return fixture;
+        const fixture = await fixtureModel.create({
+            ...input,
+            shortCode: code,
+            link: uniqueFixtureUrl
+        });
+
+        return fixture;
+
+    } catch (error) {
+        throw error;
+    }
 
 };
 
 // Find All fixtures
 export const findAllFixtures = async () => {
-    return await fixtureModel.find().populate(
-        'homeTeam awayTeam',
-        'name coach _id',
-    );
+
+    try {
+
+        return await fixtureModel.find({ isDeleted: false, deletedAt: null }).populate(
+            'homeTeam awayTeam',
+            'name coach _id',
+        );
+
+    } catch (error) {
+        throw error;
+    }
+
 };
 
 export const findFixtureById = async (id: string) => {
 
-    const fixture = await fixtureModel.findById(id).select({ name: 1, coach: 1 }).lean();
+    try {
 
-    return fixture;
+        const fixture = await fixtureModel.findById(id).select({ name: 1, coach: 1 }).lean();
+
+        return fixture;
+
+    } catch (error) {
+        throw error;
+    }
 
 };
 
 export const findFixtureByLink = async (shortCode: string) => {
 
-    const fixture = await fixtureModel.findOne({
-        shortCode
-    }).populate('homeTeam awayTeam', 'name coach _id')
+    try {
 
-    if (!fixture) {
-        throw new AppError('fixture not found', 404)
+        const fixture = await fixtureModel.findOne({
+            shortCode, isDeleted: false, deletedAt: null
+        }).populate('homeTeam awayTeam', 'name coach _id')
+
+        if (!fixture) {
+            throw new AppError('fixture not found', 404)
+        }
+
+        return fixture;
+
+    } catch (error) {
+        throw error;
     }
-
-    return fixture;
 
 }
 
 export const completedFixtures = async () => {
 
-    const playedMatches = await fixtureModel.find({ played: true }).populate(
-        'homeTeam awayTeam',
-        'name coach _id',
-    );
+    try {
 
-    if (!playedMatches || playedMatches.length === 0) {
-        throw new AppError('No played matches yet', 400);
+        const playedMatches = await fixtureModel.find({ played: true, isDeleted: false, deletedAt: null }).populate(
+            'homeTeam awayTeam',
+            'name coach _id',
+        );
+
+        if (!playedMatches || playedMatches.length === 0) {
+            throw new AppError('No played matches yet', 400);
+        }
+
+        return playedMatches;
+
+    } catch (error) {
+        throw error;
     }
-
-    return playedMatches;
 
 }
 
 export const pendingFixtures = async () => {
 
-    const pendingMatches = await fixtureModel.find({ played: false }).populate(
-        'homeTeam awayTeam',
-        'name coach _id',
-    );
+    try {
 
-    if (!pendingMatches || pendingMatches.length === 0) {
-        throw new AppError('No pending matches yet', 400);
+        const pendingMatches = await fixtureModel.find({ played: false, isDeleted: false, deletedAt: null }).populate(
+            'homeTeam awayTeam',
+            'name coach _id',
+        );
+
+        if (!pendingMatches || pendingMatches.length === 0) {
+            throw new AppError('No pending matches yet', 400);
+        }
+
+        return pendingMatches;
+
+    } catch (error) {
+        throw error
     }
 
-    return pendingMatches;
+}
+
+export const checkIfFixtureIsDeleted = async (id: string) => {
+
+    try {
+
+        const fixtureExists = await fixtureModel.findOne({ _id: id, isDeleted: true })
+
+        return fixtureExists;
+
+    } catch (error) {
+        throw error;
+    }
 
 }
 
@@ -99,11 +151,8 @@ export const findFixtureByIdAndUpdate = async (
             .findByIdAndUpdate(id, { $set: data }, { new: true })
             .lean();
 
-        if (!fixture) {
-            throw new AppError('Sorry, unable to update fixture at this time', 400);
-        }
-
-        const { homeTeam, awayTeam } = fixture;
+        const homeTeam = fixture?.homeTeam
+        const awayTeam = fixture?.awayTeam
 
         if (fixture) {
 
@@ -134,7 +183,7 @@ export const findFixtureByIdAndUpdate = async (
                     home.save(),
                     away.save()
                 ])
-                
+
             }
         }
 
@@ -148,14 +197,20 @@ export const findFixtureByIdAndUpdate = async (
 
 export const findFixtureByIdAndDelete = async (id: string, createdBy: string) => {
 
-    const deleteFixture = await fixtureModel.findByIdAndUpdate({ _id: id, isDeleted: false, deletedAt: null }, {
-        $set: { isDeleted: true, deletedAt: new Date(), deletedBy: createdBy },
-    });
+    try {
+        
+        const deleteFixture = await fixtureModel.findByIdAndUpdate({ _id: id, isDeleted: false, deletedAt: null }, {
+            $set: { isDeleted: true, deletedAt: new Date(), deletedBy: createdBy },
+        });
+    
+        if (!deleteFixture) {
+            throw new AppError('No records found', 400)
+        }
+    
+        return deleteFixture;
 
-    if (!deleteFixture) {
-        throw new AppError('No records found', 400)
+    } catch (error) {
+        throw error
     }
-
-    return deleteFixture;
 
 };
