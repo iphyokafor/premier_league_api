@@ -93,6 +93,27 @@ describe("it should test the mock premier league api", () => {
     admin_access_token = result.body.access_token
   });
 
+  it("it should get all users", async () => {
+    const result = await chai
+      .request(app)
+      .get(`${url}/users`)
+      .set('Authorization', `Bearer ${admin_access_token}`)
+    expect(result.status).to.equal(200);
+    expect(result.body.status).to.be.equal('success');
+    expect(result.body.result).to.be.equal(result.body.result);
+    expect(result.body.data.users).to.be.equal(result.body.data.users);
+  });
+
+  it("it should get a logged in user profile", async () => {
+    const result = await chai
+      .request(app)
+      .get(`${url}/users/me`)
+      .set('Authorization', `Bearer ${access_token}`)
+    expect(result.status).to.equal(200);
+    expect(result.body.status).to.be.equal('success');
+    expect(result.body.data.user).to.be.equal(result.body.data.user);
+  });
+
   it('It should Add a Team', async () => {
     const result = await chai.request(app)
       .post(`${url}/teams/create`)
@@ -113,6 +134,28 @@ describe("it should test the mock premier league api", () => {
       .send(team)
     expect(result.body.status).to.be.equal('fail');
     expect(result.body.message).to.be.equal('Nick name already exist');
+  });
+
+  it('It should update a Team', async () => {    
+    const result = await chai.request(app)
+      .put(`${url}/teams/update-team/${teamId}`)
+      .set('Authorization', `Bearer ${admin_access_token}`)
+      .set('content-type', 'application/json')
+      .send(updateTeam)
+    expect(result.status).to.equal(200);
+    expect(result.body.status).to.be.equal('success');
+    expect(result.body.message).to.be.equal(`Team ${updateTeam.name} has been updated successfully.`);
+  });
+
+  it("it should get all teams", async () => {
+    const result = await chai
+      .request(app)
+      .get(`${url}/teams`)
+      .set('Authorization', `Bearer ${access_token}`)
+    expect(result.status).to.equal(200);
+    expect(result.body.status).to.be.equal('success');
+    expect(result.body.result).to.be.equal(result.body.result);
+    expect(result.body.data.teams).to.be.equal(result.body.data.teams);
   });
 
 });

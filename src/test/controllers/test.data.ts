@@ -36,7 +36,7 @@ const team = {
 }
 
 const updateTeam = {
-    name: 'Aston Villa',
+    name: 'aston villa',
     nickName: 'The Villans',
     coach: 'Dwane Johnson',
     website: 'https://www.astonvillafc.com',
