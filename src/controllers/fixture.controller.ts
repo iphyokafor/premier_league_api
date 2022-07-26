@@ -31,11 +31,9 @@ export const getFixtureHandler = async (
                 },
             });
         }
-
     } catch (err: any) {
         next(err);
     }
-
 };
 
 export const getAllFixturesHandler = async (
@@ -43,9 +41,7 @@ export const getAllFixturesHandler = async (
     res: Response,
     next: NextFunction
 ) => {
-
     try {
-
         const viewAllFixtures = await findAllFixtures();
 
         return res.status(200).json({
@@ -54,11 +50,9 @@ export const getAllFixturesHandler = async (
                 viewAllFixtures,
             },
         });
-
     } catch (err: any) {
         next(err);
     }
-
 };
 
 export const getCompletedFixturesHandler = async (
@@ -66,9 +60,7 @@ export const getCompletedFixturesHandler = async (
     res: Response,
     next: NextFunction
 ) => {
-
     try {
-
         const viewCompletedFixtures = await completedFixtures();
 
         if (viewCompletedFixtures) {
@@ -79,11 +71,9 @@ export const getCompletedFixturesHandler = async (
                 },
             });
         }
-
     } catch (err) {
         next(err);
     }
-
 };
 
 export const getPendingFixturesHandler = async (
@@ -91,9 +81,7 @@ export const getPendingFixturesHandler = async (
     res: Response,
     next: NextFunction
 ) => {
-
     try {
-
         const viewPendingFixtures = await pendingFixtures();
 
         if (viewPendingFixtures) {
@@ -104,11 +92,9 @@ export const getPendingFixturesHandler = async (
                 },
             });
         }
-
     } catch (err) {
         next(err);
     }
-
 };
 
 export const createFixtureHandler = async (
@@ -116,9 +102,7 @@ export const createFixtureHandler = async (
     res: Response,
     next: NextFunction
 ) => {
-
     try {
-
         const user = res.locals.user._id;
 
         const payload = req.body;
@@ -144,11 +128,9 @@ export const createFixtureHandler = async (
                 fixture,
             },
         });
-
     } catch (err: any) {
         next(err);
     }
-
 };
 
 export const updateFixtureHandler = async (
@@ -156,13 +138,11 @@ export const updateFixtureHandler = async (
     res: Response,
     next: NextFunction
 ) => {
-
     const { id } = req.params;
 
     const payload = req.body;
 
     try {
-
         const checkIsDeleted = await checkIfFixtureIsDeleted(id);
 
         if (checkIsDeleted) {
@@ -185,11 +165,9 @@ export const updateFixtureHandler = async (
                 message: `Fixture has been updated successfully.`,
             });
         }
-
     } catch (err: any) {
         next(err.message);
     }
-
 };
 
 export const deleteFixtureHandler = async (
@@ -197,7 +175,6 @@ export const deleteFixtureHandler = async (
     res: Response,
     next: NextFunction
 ) => {
-
     const { id } = req.params;
 
     const userId = res.locals.user._id;
@@ -214,5 +191,4 @@ export const deleteFixtureHandler = async (
     } catch (err) {
         next(err);
     }
-
 };

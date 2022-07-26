@@ -3,11 +3,9 @@ import teamModel from "../models/team.model";
 import { pageDtoConfig } from "../utils/types";
 
 export const searchTeam = async (props: pageDtoConfig) => {
-
     let { search, page, limit } = props;
 
     try {
-
         page = !page || isNaN(page) ? 1 : Number(page);
 
         const searchQueries = {
@@ -48,19 +46,15 @@ export const searchTeam = async (props: pageDtoConfig) => {
                 totalTeam: count,
             },
         };
-
     } catch (error) {
         throw error;
     }
-
 };
 
 export const searchFixtures = async (props: pageDtoConfig) => {
-
     let { search, page, limit } = props;
 
     try {
-
         page = !page || isNaN(page) ? 1 : Number(page);
 
         const searchQueries = {
@@ -97,9 +91,7 @@ export const searchFixtures = async (props: pageDtoConfig) => {
                 totalFixtures: count,
             },
         };
-
     } catch (error) {
         throw error;
     }
-    
 };
