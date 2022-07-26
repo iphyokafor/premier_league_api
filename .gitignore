@@ -4,3 +4,15 @@
 
 # Environment variables
 .env
+
+# coverage dependencies
+coverage/
+.nyc_output/
+
+# package-lock.json
+package-lock.json
+
+# history
+.history
+
+.coveralls.yml

@@ -13,7 +13,8 @@
     "watch-node": "nodemon build/app.js",
     "watch-ts": "tsc -w",
     "dev": "ts-node-dev --respawn --transpile-only src/app.ts",
-    "test:dev": "jest --watch"
+    "test:dev": "jest --watch",
+    "test": " cross-env NODE_ENV=test nyc --reporter=text --reporter=html mocha --require ts-node/register src/test/index.ts --timeout 10000 --recursive --exit || true"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",

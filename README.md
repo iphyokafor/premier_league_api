@@ -48,6 +48,9 @@ You must have
 ## Docker
  - To start the docker containers on your terminal run `docker-compose up -d`
 
+ ## Test
+ - To execute tests, on your terminal run `npm run test`
+
 ## Built With
 
 - NodeJs
