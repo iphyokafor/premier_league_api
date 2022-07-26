@@ -3,7 +3,7 @@ import chatHttp from 'chai-http';
 import { app } from "../../app";
 import teamModel from '../../models/team.model';
 import userModel from '../../models/user.model';
-import { user, admin, user2, admin2, team, updateTeam } from "./test.data";
+import { user, admin, user2, admin2, team, updateTeam, fixture, team2, updateFixture } from "./test.data";
 
 
 chai.use(chatHttp);
@@ -14,6 +14,9 @@ const url = "/api";
 let access_token: string = '';
 let admin_access_token: string = '';
 let teamId: string = '';
+let team2Id: string = '';
+let fixtureId: string = '';
+let shortCode: string = '';
 
 describe("it should test the mock premier league api", () => {
   before(async () => {
@@ -114,7 +117,7 @@ describe("it should test the mock premier league api", () => {
     expect(result.body.data.user).to.be.equal(result.body.data.user);
   });
 
-  it('It should Add a Team', async () => {
+  it('It should create a team', async () => {
     const result = await chai.request(app)
       .post(`${url}/teams/create`)
       .set('Authorization', `Bearer ${admin_access_token}`)
@@ -124,6 +127,18 @@ describe("it should test the mock premier league api", () => {
     expect(result.body.status).to.be.equal('success');
     expect(result.body.data.team).to.be.equal(result.body.data.team);
     teamId = result.body.data.team.id
+  });
+
+  it('It should create another team', async () => {
+    const result = await chai.request(app)
+      .post(`${url}/teams/create`)
+      .set('Authorization', `Bearer ${admin_access_token}`)
+      .set('content-type', 'application/json')
+      .send(team2)
+    expect(result.status).to.equal(201);
+    expect(result.body.status).to.be.equal('success');
+    expect(result.body.data.team).to.be.equal(result.body.data.team);
+    team2Id = result.body.data.team.id
   });
 
   it('It should not create team with duplicate details', async () => {
@@ -136,7 +151,7 @@ describe("it should test the mock premier league api", () => {
     expect(result.body.message).to.be.equal('Nick name already exist');
   });
 
-  it('It should update a Team', async () => {    
+  it('It should update a Team', async () => {
     const result = await chai.request(app)
       .put(`${url}/teams/update-team/${teamId}`)
       .set('Authorization', `Bearer ${admin_access_token}`)
@@ -156,6 +171,70 @@ describe("it should test the mock premier league api", () => {
     expect(result.body.status).to.be.equal('success');
     expect(result.body.result).to.be.equal(result.body.result);
     expect(result.body.data.teams).to.be.equal(result.body.data.teams);
+  });
+
+  it('It should create fixture', async () => {
+    const result = await chai.request(app)
+      .post(`${url}/fixtures/create`)
+      .set('Authorization', `Bearer ${admin_access_token}`)
+      .set('content-type', 'application/json')
+      .send({ homeTeam: teamId, awayTeam: team2Id, ...fixture })
+    expect(result.status).to.equal(201);
+    expect(result.body.status).to.be.equal('success');
+    expect(result.body.data.fixture).to.be.equal(result.body.data.fixture);
+    fixtureId = result.body.data.fixture.id
+    shortCode = result.body.data.fixture.shortCode
+  });
+
+  it("it should get all fixtures", async () => {
+    const result = await chai
+      .request(app)
+      .get(`${url}/fixtures`)
+      .set('Authorization', `Bearer ${access_token}`)
+    expect(result.status).to.equal(200);
+    expect(result.body.status).to.be.equal('success');
+    expect(result.body.data.viewAllFixtures).to.be.equal(result.body.data.viewAllFixtures);
+  });
+
+  it("it should get unique fixture by link", async () => {
+    const result = await chai
+      .request(app)
+      .get(`${url}/fixtures/${shortCode}`)
+      .set('Authorization', `Bearer ${access_token}`)
+    expect(result.status).to.equal(200);
+    expect(result.body.status).to.be.equal('success');
+    expect(result.body.data.fixture).to.be.equal(result.body.data.fixture);
+  });
+
+  it("it should get all completed fixtures", async () => {
+    const result = await chai
+      .request(app)
+      .get(`${url}/fixtures/get/completed`)
+      .set('Authorization', `Bearer ${access_token}`)
+    expect(result.status).to.equal(200);
+    expect(result.body.status).to.be.equal('success');
+    expect(result.body.data.viewCompletedFixtures).to.be.equal(result.body.data.viewCompletedFixtures);
+  });
+
+  it("it should get all pending fixtures", async () => {
+    const result = await chai
+      .request(app)
+      .get(`${url}/fixtures/get/pending`)
+      .set('Authorization', `Bearer ${access_token}`)
+    expect(result.status).to.equal(200);
+    expect(result.body.status).to.be.equal('success');
+    expect(result.body.data.viewPendingFixtures).to.be.equal(result.body.data.viewPendingFixtures);
+  });
+
+  it('It should update a fixture', async () => {
+    const result = await chai.request(app)
+      .put(`${url}/fixtures/update-fixture/${fixtureId}`)
+      .set('Authorization', `Bearer ${admin_access_token}`)
+      .set('content-type', 'application/json')
+      .send(updateFixture)
+    expect(result.status).to.equal(200);
+    expect(result.body.status).to.be.equal('success');
+    expect(result.body.message).to.be.equal(`Fixture has been updated successfully.`);
   });
 
 });
