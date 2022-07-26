@@ -2,7 +2,7 @@
   "name": "premier_league_api",
   "version": "1.0.0",
   "description": "An API that serves the latest scores of fixtures of matches in a “Mock Premier League”. Jwt Authentication with Node.js, Typegoose, mongoDB, Mongoose, Docker, Redis, and JsonWebToken",
-  "main": "build/app.js",
+  "main": "app.ts",
   "author": "Sandra Okafor",
   "license": "MIT",
   "scripts": {
