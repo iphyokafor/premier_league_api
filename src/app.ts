@@ -40,7 +40,7 @@ app.use('/api/fixtures', fixtureRouter);
 app.use('/api/search', searchRouter);
 
 // Testing
-app.get('/premier_league_api', (req: Request, res: Response, next: NextFunction) => {
+app.get('/api/premier_league_api', (req: Request, res: Response, next: NextFunction) => {
 
   res.status(200).json({
     status: 'success',
