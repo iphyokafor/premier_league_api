@@ -10,7 +10,7 @@
     "strictPropertyInitialization": false,
     "skipLibCheck": true,
     "typeRoots": ["./node_modules/@types", "./src/@types"],
-    "outDir": "build"
+    "outDir": "build",
   },
   "include": [
     "src/*/"
