@@ -1,16 +1,13 @@
-
-import { NextFunction, Request, Response } from 'express';
-import { searchFixtures, searchTeam } from '../services/search.service'
-import { pageDtoConfig } from '../utils/types'
+import { NextFunction, Request, Response } from "express";
+import { searchFixtures, searchTeam } from "../services/search.service";
+import { pageDtoConfig } from "../utils/types";
 
 export const searchTeamHandler = async (
     req: Request,
     res: Response,
-    next: NextFunction,
+    next: NextFunction
 ) => {
-
     try {
-
         const { search, page, limit } = req.query;
 
         const query = { search, page, limit } as unknown as pageDtoConfig;
@@ -18,24 +15,20 @@ export const searchTeamHandler = async (
         const result = await searchTeam(query);
 
         return res.status(200).json({
-            status: 'success',
-            data: result
+            status: "success",
+            data: result,
         });
-
     } catch (err: any) {
         next(err);
     }
-
 };
 
 export const searchFixtureHandler = async (
     req: Request,
     res: Response,
-    next: NextFunction,
+    next: NextFunction
 ) => {
-
     try {
-
         const { search, page, limit } = req.query;
 
         const query = { search, page, limit } as unknown as pageDtoConfig;
@@ -43,12 +36,10 @@ export const searchFixtureHandler = async (
         const result = await searchFixtures(query);
 
         return res.status(200).json({
-            status: 'success',
-            data: result
+            status: "success",
+            data: result,
         });
-
     } catch (err: any) {
         next(err);
     }
-
 };
