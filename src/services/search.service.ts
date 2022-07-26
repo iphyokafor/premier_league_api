@@ -1,6 +1,6 @@
-import fixtureModel from '../models/fixture.model';
-import teamModel from '../models/team.model'
-import { pageDtoConfig } from '../utils/types';
+import fixtureModel from "../models/fixture.model";
+import teamModel from "../models/team.model";
+import { pageDtoConfig } from "../utils/types";
 
 export const searchTeam = async (props: pageDtoConfig) => {
 
@@ -11,15 +11,13 @@ export const searchTeam = async (props: pageDtoConfig) => {
         page = !page || isNaN(page) ? 1 : Number(page);
 
         const searchQueries = {
-
             $or: [
                 { name: { $regex: search, $options: "ig" } },
                 { nickName: { $regex: search, $options: "ig" } },
                 { coach: { $regex: search, $options: "ig" } },
                 { stadiumName: { $regex: search, $options: "ig" } },
-            ]
-            
-        }
+            ],
+        };
 
         page = page < 1 ? 1 : Number(page);
 
@@ -33,9 +31,10 @@ export const searchTeam = async (props: pageDtoConfig) => {
 
         page = page > totalPages ? totalPages : page;
 
-        const skip = page > 0 ? (page - 1) * limit : 0
+        const skip = page > 0 ? (page - 1) * limit : 0;
 
-        const team = await teamModel.find(query)
+        const team = await teamModel
+            .find(query)
             .sort({ createadAt: -1 })
             .limit(limit * 1)
             .skip(skip)
@@ -46,12 +45,12 @@ export const searchTeam = async (props: pageDtoConfig) => {
             meta: {
                 totalPages: totalPages,
                 currentpages: page,
-                totalTeam: count
-            }
-        }
+                totalTeam: count,
+            },
+        };
 
     } catch (error) {
-        throw error
+        throw error;
     }
 
 };
@@ -65,10 +64,8 @@ export const searchFixtures = async (props: pageDtoConfig) => {
         page = !page || isNaN(page) ? 1 : Number(page);
 
         const searchQueries = {
-            $or: [
-                { stadium: { $regex: search, $options: "ig" } },
-            ]
-        }
+            $or: [{ stadium: { $regex: search, $options: "ig" } }],
+        };
 
         page = page < 1 ? 1 : Number(page);
 
@@ -82,11 +79,11 @@ export const searchFixtures = async (props: pageDtoConfig) => {
 
         page = page > totalPages ? totalPages : page;
 
-        const skip = page > 0 ? (page - 1) * limit : 0
+        const skip = page > 0 ? (page - 1) * limit : 0;
 
-        const fixture = await fixtureModel.find(query)
-            .populate('homeTeam awayTeam',
-                'name coach _id')
+        const fixture = await fixtureModel
+            .find(query)
+            .populate("homeTeam awayTeam", "name coach _id")
             .sort({ createadAt: -1 })
             .limit(limit * 1)
             .skip(skip)
@@ -97,12 +94,12 @@ export const searchFixtures = async (props: pageDtoConfig) => {
             meta: {
                 totalPages: totalPages,
                 currentpages: page,
-                totalFixtures: count
-            }
-        }
+                totalFixtures: count,
+            },
+        };
 
     } catch (error) {
-        throw error
+        throw error;
     }
     
 };
