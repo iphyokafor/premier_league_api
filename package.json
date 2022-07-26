@@ -8,7 +8,8 @@
   "scripts": {
     "start": "node build/app.js",
     "clean": "rimraf build/*",
-    "postinstall": "tsc",
+    "postinstall": "npm run build",
+    "logs": "heroku logs --app sandie-league --tail",
     "build": "npm run clean && npm run postinstall",
     "watch-node": "nodemon build/app.js",
     "watch-ts": "tsc -w",
